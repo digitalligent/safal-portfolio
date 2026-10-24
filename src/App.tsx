@@ -21,16 +21,13 @@ function App() {
     setFormStatus('sending');
 
     try {
-      const response = await fetch(
-        'https://formspree.io/f/xvkkgjer',
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Accept: 'application/json',
-          },
-        }
-      );
+      const response = await fetch('https://formspree.io/f/xvkkgjer', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
 
       if (response.ok) {
         form.reset();
@@ -72,6 +69,7 @@ function App() {
       </header>
 
       <main>
+        {/* Hero */}
         <section className="hero section" id="home">
           <div className="hero-content">
             <div className="availability">
@@ -82,7 +80,11 @@ function App() {
             <p className="eyebrow">HELLO, I'M</p>
             <h1>Safal <span>Silwal.</span></h1>
 
-            <h2>Building my skills.<br />Creating what's next.</h2>
+            <h2>
+              Building my skills.
+              <br />
+              Creating what's next.
+            </h2>
 
             <p className="hero-description">
               I'm developing my skills and working towards creating
@@ -106,8 +108,8 @@ function App() {
 
             <div className="hero-socials">
               <span>FIND ME ON</span>
+              <a href="#skills">My YouTube channels ↗</a>
               <a href="#contact">Get in touch ↗</a>
-              {/* Add your real GitHub and LinkedIn URLs here. */}
             </div>
           </div>
 
@@ -131,10 +133,15 @@ function App() {
           </div>
         </section>
 
+        {/* About */}
         <section className="about section" id="about">
           <div className="section-heading">
             <p className="eyebrow">A LITTLE ABOUT ME</p>
-            <h2>Curious by nature.<br />Driven to <span>create.</span></h2>
+            <h2>
+              Curious by nature.
+              <br />
+              Driven to <span>create.</span>
+            </h2>
           </div>
 
           <div className="about-content">
@@ -157,97 +164,194 @@ function App() {
           </div>
         </section>
 
+        {/* Projects */}
         <section className="projects section" id="projects">
           <div className="section-title-row">
             <div>
               <p className="eyebrow">SELECTED WORK</p>
-              <h2>Projects & <span>experiments.</span></h2>
+              <h2>
+                Projects & <span>experiments.</span>
+              </h2>
             </div>
 
             <p className="section-note">
-              A space for work, experiments, and future projects.
+              Websites, content projects, and practical experiments
+              I'm developing and sharing.
             </p>
           </div>
 
           <div className="project-grid">
             <article className="project-card">
-              <div className="project-placeholder">
-                <span>01 / PROJECT</span>
+              <a
+                className="project-placeholder project-link-visual"
+                href="https://all-in-one-forex-tools.onrender.com/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open All-in-One Forex Tools website"
+              >
+                <span>01 / LIVE WEBSITE</span>
                 <span className="placeholder-symbol">↗</span>
-              </div>
+              </a>
 
               <div className="project-info">
-                <p className="project-type">PROJECT TODO</p>
-                <h3>Add your first project</h3>
+                <p className="project-type">DEPLOYED PROJECT</p>
+                <h3>All-in-One Forex Tools</h3>
+
                 <p>
-                  Replace this placeholder with a real project,
-                  what it does, and what you learned while building it.
+                  A live website bringing together useful tools for
+                  people learning about Forex. Visit the deployed
+                  project to explore it.
                 </p>
 
                 <div className="tags">
-                  <span>TODO: Technology</span>
-                  <span>TODO: Category</span>
+                  <span>Web development</span>
+                  <span>Live deployment</span>
                 </div>
+
+                <a
+                  className="text-link project-external-link"
+                  href="https://all-in-one-forex-tools.onrender.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Visit website ↗
+                </a>
               </div>
             </article>
 
             <article className="project-card">
               <div className="project-placeholder project-placeholder-alt">
-                <span>02 / PROJECT</span>
-                <span className="placeholder-symbol">✳</span>
+                <span>02 / VIDEO CONTENT</span>
+                <span className="placeholder-symbol">▶</span>
               </div>
 
               <div className="project-info">
-                <p className="project-type">PROJECT TODO</p>
-                <h3>Your next project</h3>
+                <p className="project-type">SOCIAL MEDIA & CONTENT</p>
+                <h3>YouTube channel projects</h3>
+
                 <p>
-                  Add another genuine project when you have one
-                  ready to show.
+                  I create and manage content across gaming, vlogging,
+                  and mystery-themed YouTube channels while developing
+                  my video editing and content-presentation skills.
                 </p>
 
                 <div className="tags">
-                  <span>TODO: Technology</span>
-                  <span>TODO: Category</span>
+                  <span>Content creation</span>
+                  <span>Video editing</span>
+                  <span>YouTube</span>
                 </div>
+
+                <a className="text-link project-external-link" href="#skills">
+                  Explore my channels ↓
+                </a>
               </div>
             </article>
           </div>
         </section>
 
+        {/* Skills and YouTube channels */}
         <section className="skills section" id="skills">
           <div className="section-heading">
             <p className="eyebrow">WHAT I'M LEARNING</p>
-            <h2>Skills & <span>growth.</span></h2>
+            <h2>
+              Skills & <span>growth.</span>
+            </h2>
+
             <p className="section-note">
-              My skills will be listed here as I develop and verify them.
+              A practical snapshot of the skills I'm developing and
+              the content I create.
             </p>
           </div>
 
           <div className="skill-groups">
             <div className="skill-group">
               <span className="skill-number">01</span>
-              <h3>Languages</h3>
-              <p>TODO: Add languages you genuinely know.</p>
+              <h3>Web development</h3>
+
+              <p>
+                Building and improving websites, learning through
+                practical projects, and publishing work online.
+              </p>
+
+              <a
+                className="skill-link"
+                href="https://all-in-one-forex-tools.onrender.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View my deployed website ↗
+              </a>
             </div>
 
             <div className="skill-group">
               <span className="skill-number">02</span>
-              <h3>Development</h3>
-              <p>TODO: Add tools and technologies you're learning.</p>
+              <h3>Social media handling</h3>
+
+              <p>
+                Managing my own YouTube channels and exploring how
+                to organise, present, and share content for different
+                audiences.
+              </p>
+
+              <ul className="channel-list">
+                <li>
+                  <a
+                    href="https://www.youtube.com/@frenzycrave369"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Gaming channel <span>↗</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="https://www.youtube.com/@glazeproject339"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Vlogs channel <span>↗</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="https://www.youtube.com/@TheEnigmaticPedia"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Mystery & enigmatic videos <span>↗</span>
+                  </a>
+                </li>
+              </ul>
             </div>
 
             <div className="skill-group">
               <span className="skill-number">03</span>
-              <h3>Other skills</h3>
-              <p>TODO: Add your verified skills and interests.</p>
+              <h3>Video editing & content</h3>
+
+              <p>
+                Developing video editing skills by working on my own
+                channel content, with a focus on clear presentation
+                and engaging visuals.
+              </p>
+
+              <div className="tags">
+                <span>Video editing</span>
+                <span>Content creation</span>
+                <span>YouTube</span>
+              </div>
             </div>
           </div>
         </section>
 
+        {/* Contact form */}
         <section className="contact section" id="contact">
           <div className="contact-copy">
             <p className="eyebrow">HAVE A PROJECT IN MIND?</p>
-            <h2>Let's make something <span>useful.</span></h2>
+            <h2>
+              Let's make something <span>useful.</span>
+            </h2>
 
             <p>
               Have a question, a project idea, or a potential
@@ -259,10 +363,7 @@ function App() {
             </p>
           </div>
 
-          <form
-            className="contact-form"
-            onSubmit={handleSubmit}
-          >
+          <form className="contact-form" onSubmit={handleSubmit}>
             <label htmlFor="name">Your name *</label>
             <input
               id="name"
@@ -298,7 +399,10 @@ function App() {
               disabled={formStatus === 'sending'}
             />
 
-            <label htmlFor="projectType">What can I help with? *</label>
+            <label htmlFor="projectType">
+              What can I help with? *
+            </label>
+
             <select
               id="projectType"
               name="projectType"
@@ -306,13 +410,21 @@ function App() {
               required
               disabled={formStatus === 'sending'}
             >
-              <option value="" disabled>Select an option</option>
-              <option value="Freelance project">Freelance project</option>
+              <option value="" disabled>
+                Select an option
+              </option>
+              <option value="Freelance project">
+                Freelance project
+              </option>
               <option value="Employment opportunity">
                 Employment opportunity
               </option>
-              <option value="Collaboration">Collaboration</option>
-              <option value="General enquiry">General enquiry</option>
+              <option value="Collaboration">
+                Collaboration
+              </option>
+              <option value="General enquiry">
+                General enquiry
+              </option>
             </select>
 
             <label htmlFor="message">Your message *</label>
@@ -335,6 +447,7 @@ function App() {
               {formStatus === 'sending'
                 ? 'Sending...'
                 : 'Send enquiry'}
+
               {formStatus !== 'sending' && <span>↗</span>}
             </button>
 
@@ -357,6 +470,7 @@ function App() {
         </section>
       </main>
 
+      {/* Footer */}
       <footer className="footer">
         <a className="logo" href="#home">
           SS<span>.</span>
