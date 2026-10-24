@@ -1,18 +1,46 @@
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import './App.css';
+
+type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitted(true);
-  }
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle');
 
   function closeMenu() {
     setMenuOpen(false);
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch(
+        'https://formspree.io/f/xvkkgjer',
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      );
+
+      if (response.ok) {
+        form.reset();
+        setFormStatus('success');
+      } else {
+        setFormStatus('error');
+      }
+    } catch {
+      setFormStatus('error');
+    }
   }
 
   return (
@@ -27,6 +55,7 @@ function App() {
           aria-label="Toggle navigation"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
+          type="button"
         >
           {menuOpen ? '✕' : '☰'}
         </button>
@@ -89,6 +118,7 @@ function App() {
                 alt="Portrait of Safal Silwal"
               />
             </div>
+
             <div className="photo-caption">
               <span className="caption-mark">✳</span>
               <div>
@@ -96,6 +126,7 @@ function App() {
                 <p>Learning. Building. Improving.</p>
               </div>
             </div>
+
             <div className="decorative-circle" />
           </div>
         </section>
@@ -112,12 +143,14 @@ function App() {
               my skills and exploring how ideas become useful digital
               products.
             </p>
+
             <p>
               I'm interested in connecting with people, learning from
               real projects, and finding opportunities to contribute.
               This portfolio will grow as I gain experience and build
               work I can share.
             </p>
+
             <a className="text-link" href="#contact">
               Let's talk about your project ↗
             </a>
@@ -130,6 +163,7 @@ function App() {
               <p className="eyebrow">SELECTED WORK</p>
               <h2>Projects & <span>experiments.</span></h2>
             </div>
+
             <p className="section-note">
               A space for work, experiments, and future projects.
             </p>
@@ -141,6 +175,7 @@ function App() {
                 <span>01 / PROJECT</span>
                 <span className="placeholder-symbol">↗</span>
               </div>
+
               <div className="project-info">
                 <p className="project-type">PROJECT TODO</p>
                 <h3>Add your first project</h3>
@@ -148,6 +183,7 @@ function App() {
                   Replace this placeholder with a real project,
                   what it does, and what you learned while building it.
                 </p>
+
                 <div className="tags">
                   <span>TODO: Technology</span>
                   <span>TODO: Category</span>
@@ -160,6 +196,7 @@ function App() {
                 <span>02 / PROJECT</span>
                 <span className="placeholder-symbol">✳</span>
               </div>
+
               <div className="project-info">
                 <p className="project-type">PROJECT TODO</p>
                 <h3>Your next project</h3>
@@ -167,6 +204,7 @@ function App() {
                   Add another genuine project when you have one
                   ready to show.
                 </p>
+
                 <div className="tags">
                   <span>TODO: Technology</span>
                   <span>TODO: Category</span>
@@ -191,11 +229,13 @@ function App() {
               <h3>Languages</h3>
               <p>TODO: Add languages you genuinely know.</p>
             </div>
+
             <div className="skill-group">
               <span className="skill-number">02</span>
               <h3>Development</h3>
               <p>TODO: Add tools and technologies you're learning.</p>
             </div>
+
             <div className="skill-group">
               <span className="skill-number">03</span>
               <h3>Other skills</h3>
@@ -208,10 +248,12 @@ function App() {
           <div className="contact-copy">
             <p className="eyebrow">HAVE A PROJECT IN MIND?</p>
             <h2>Let's make something <span>useful.</span></h2>
+
             <p>
               Have a question, a project idea, or a potential
               opportunity? Send me a message using the form.
             </p>
+
             <p className="contact-note">
               Fields marked with * are required.
             </p>
@@ -230,6 +272,7 @@ function App() {
               placeholder="Enter your name"
               required
               maxLength={100}
+              disabled={formStatus === 'sending'}
             />
 
             <label htmlFor="email">Email address *</label>
@@ -241,6 +284,7 @@ function App() {
               placeholder="you@example.com"
               required
               maxLength={254}
+              disabled={formStatus === 'sending'}
             />
 
             <label htmlFor="company">Company (optional)</label>
@@ -251,6 +295,7 @@ function App() {
               autoComplete="organization"
               placeholder="Your company or organisation"
               maxLength={150}
+              disabled={formStatus === 'sending'}
             />
 
             <label htmlFor="projectType">What can I help with? *</label>
@@ -259,10 +304,13 @@ function App() {
               name="projectType"
               defaultValue=""
               required
+              disabled={formStatus === 'sending'}
             >
               <option value="" disabled>Select an option</option>
               <option value="Freelance project">Freelance project</option>
-              <option value="Employment opportunity">Employment opportunity</option>
+              <option value="Employment opportunity">
+                Employment opportunity
+              </option>
               <option value="Collaboration">Collaboration</option>
               <option value="General enquiry">General enquiry</option>
             </select>
@@ -276,25 +324,46 @@ function App() {
               required
               minLength={10}
               maxLength={5000}
+              disabled={formStatus === 'sending'}
             />
 
-            <button className="button button-primary submit-button" type="submit">
-              Send enquiry <span>↗</span>
+            <button
+              className="button button-primary submit-button"
+              type="submit"
+              disabled={formStatus === 'sending'}
+            >
+              {formStatus === 'sending'
+                ? 'Sending...'
+                : 'Send enquiry'}
+              {formStatus !== 'sending' && <span>↗</span>}
             </button>
 
-            {submitted && (
-              <p className="form-message" role="status">
-                The form is not connected to email yet. Your message
-                has not been sent. We'll connect an email service next.
-              </p>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {formStatus === 'success' && (
+                <p className="form-message" role="status">
+                  Thank you for your message! Your enquiry was
+                  submitted successfully.
+                </p>
+              )}
+
+              {formStatus === 'error' && (
+                <p className="form-message" role="alert">
+                  Your message could not be sent. Please try again
+                  or contact me through another channel.
+                </p>
+              )}
+            </div>
           </form>
         </section>
       </main>
 
       <footer className="footer">
-        <a className="logo" href="#home">SS<span>.</span></a>
+        <a className="logo" href="#home">
+          SS<span>.</span>
+        </a>
+
         <p>© {new Date().getFullYear()} Safal Silwal.</p>
+
         <a href="#home">Back to top ↑</a>
       </footer>
     </>
