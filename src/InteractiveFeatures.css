@@ -1,0 +1,969 @@
+
+/* =========================================================
+   INTERACTIVE FEATURES
+   Matches the existing dark green Safal portfolio theme.
+   All feature styling is isolated from the existing App.css.
+   ========================================================= */
+
+/* Feature-specific design tokens */
+.results-section,
+.brief-card,
+.custom-cursor-layer {
+  --ifx-bg: #080b09;
+  --ifx-bg-soft: #0d120f;
+  --ifx-surface: #111914;
+  --ifx-surface-raised: #151f18;
+  --ifx-green: #9bffb0;
+  --ifx-green-bright: #b7ffc5;
+  --ifx-green-deep: #245d39;
+  --ifx-text: #e8eee9;
+  --ifx-muted: #9aa79d;
+  --ifx-border: rgba(190, 225, 197, 0.13);
+  --ifx-glow: 0 0 36px rgba(85, 255, 130, 0.09);
+  --ifx-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.22),
+    0 3px 12px rgba(0, 0, 0, 0.12);
+  --ifx-radius: 18px;
+}
+
+/* Feature headings use the existing portfolio typography. */
+.results-section h2,
+.results-section h3,
+.brief-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Keep feature focus styling separate from the site's global rules. */
+.results-section button:focus-visible,
+.brief-card button:focus-visible,
+.brief-card input:focus-visible,
+.brief-card textarea:focus-visible,
+.brief-card a:focus-visible {
+  outline: 2px solid var(--ifx-green);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   CUSTOM CURSOR
+   The native cursor remains available on touch devices and
+   in text fields. The component handles reduced motion.
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button {
+    cursor: none;
+  }
+
+  body.custom-cursor-active input,
+  body.custom-cursor-active textarea,
+  body.custom-cursor-active select,
+  body.custom-cursor-active [contenteditable='true'] {
+    cursor: text;
+  }
+}
+
+.custom-cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.custom-cursor-layer .cursor-dot,
+.custom-cursor-layer .cursor-ring,
+.custom-cursor-layer .cursor-trail-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.custom-cursor-layer .cursor-dot {
+  z-index: 3;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ifx-green);
+}
+
+.custom-cursor-layer .cursor-ring {
+  z-index: 2;
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--ifx-green);
+  border-radius: 50%;
+  color: var(--ifx-text);
+  font: 600 11px/1 'DM Sans', sans-serif;
+  white-space: nowrap;
+  transition:
+    width 0.18s ease,
+    height 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.12s ease,
+    opacity 0.18s ease;
+}
+
+.custom-cursor-layer .cursor-ring[data-mode='link'] {
+  width: 64px;
+  height: 64px;
+  border-color: var(--ifx-green);
+  background: rgba(155, 255, 176, 0.12);
+}
+
+.custom-cursor-layer .cursor-ring[data-mode='view'] {
+  width: 80px;
+  height: 80px;
+  border-color: var(--ifx-green);
+  background: var(--ifx-green);
+  color: #07100a;
+}
+
+.custom-cursor-layer .cursor-ring[data-mode='drag'] {
+  width: 82px;
+  height: 44px;
+  border-radius: 24px;
+  border-color: var(--ifx-green);
+  background: rgba(155, 255, 176, 0.14);
+  color: var(--ifx-text);
+}
+
+.custom-cursor-layer .cursor-ring[data-mode='text'] {
+  width: 2px;
+  height: 28px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--ifx-green);
+}
+
+.custom-cursor-layer .cursor-ring[data-down='true'] {
+  scale: 0.85;
+}
+
+.custom-cursor-layer .cursor-ring[data-mode='reduced'] {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  background: var(--ifx-green);
+}
+
+.custom-cursor-layer .cursor-trail-dot {
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--ifx-green);
+}
+
+/* =========================================================
+   RESULTS SECTION
+   ========================================================= */
+
+.results-section {
+  padding-top: clamp(70px, 9vw, 120px);
+  padding-bottom: clamp(70px, 9vw, 120px);
+  color: var(--ifx-text);
+}
+
+.results-section .results-heading {
+  align-items: end;
+  gap: 28px;
+}
+
+.results-section h2 {
+  margin: 0;
+  color: var(--ifx-text);
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.results-section h2 span {
+  color: var(--ifx-green);
+}
+
+.results-section .section-note {
+  max-width: 440px;
+  color: var(--ifx-muted);
+  line-height: 1.8;
+}
+
+.results-section .comparison-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 30px 0 18px;
+}
+
+.results-section .comparison-tab {
+  padding: 11px 17px;
+  border: 1px solid var(--ifx-border);
+  border-radius: 999px;
+  background: var(--ifx-surface);
+  color: var(--ifx-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.results-section .comparison-tab:hover {
+  border-color: rgba(155, 255, 176, 0.5);
+}
+
+.results-section .comparison-tab.active {
+  border-color: var(--ifx-green);
+  background: var(--ifx-green);
+  color: #07100a;
+}
+
+.results-section .comparison-wrap {
+  max-width: 100%;
+}
+
+.results-section .comparison-card {
+  position: relative;
+  height: clamp(300px, 42vw, 510px);
+  overflow: hidden;
+  border: 1px solid var(--ifx-border);
+  border-radius: var(--ifx-radius);
+  background: var(--ifx-surface);
+  box-shadow: var(--ifx-shadow);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: ew-resize;
+}
+
+.results-section .comparison-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.results-section .comparison-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.results-section .comparison-before {
+  background: #151f18;
+}
+
+.results-section .comparison-after {
+  background: #102719;
+}
+
+.results-section .comparison-copy {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(22px, 5vw, 58px);
+  color: var(--ifx-text);
+}
+
+.results-section .comparison-copy-before {
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(155, 255, 176, 0.07),
+      transparent 35%
+    ),
+    linear-gradient(145deg, #151c17, #0d120f);
+}
+
+.results-section .comparison-copy-after {
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(155, 255, 176, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(145deg, #17291c, #0d180f);
+}
+
+.results-section .comparison-copy small {
+  margin: 18px 0 12px;
+  color: var(--ifx-green);
+  font: 700 10px 'DM Sans', sans-serif;
+  letter-spacing: 0.16em;
+}
+
+.results-section .comparison-copy h3 {
+  max-width: 620px;
+  margin: 0 0 14px;
+  color: var(--ifx-text);
+  font-size: clamp(1.5rem, 4vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.results-section .comparison-copy p {
+  max-width: 460px;
+  margin: 0;
+  color: var(--ifx-muted);
+  line-height: 1.7;
+}
+
+.results-section .mock-window-dots {
+  color: #7c8b80;
+  font-size: 12px;
+  letter-spacing: 4px;
+}
+
+.results-section .mock-cta {
+  margin-top: 25px;
+  padding: 12px 19px;
+  border: 1px solid var(--ifx-green);
+  border-radius: 999px;
+  background: var(--ifx-green);
+  color: #07100a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.results-section .comparison-label {
+  position: absolute;
+  z-index: 4;
+  top: 18px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.results-section .before-label {
+  left: 18px;
+  background: rgba(8, 11, 9, 0.9);
+  color: var(--ifx-text);
+}
+
+.results-section .after-label {
+  right: 18px;
+  background: var(--ifx-green);
+  color: #07100a;
+}
+
+.results-section .comparison-divider {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--ifx-green);
+  box-shadow: 0 0 12px rgba(155, 255, 176, 0.2);
+  pointer-events: none;
+}
+
+.results-section .comparison-handle {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin: -22px 0 0 -22px;
+  border: 1px solid rgba(7, 16, 10, 0.15);
+  border-radius: 50%;
+  background: var(--ifx-green);
+  color: #07100a;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  font-size: 24px;
+  line-height: 1;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.results-section .comparison-handle:focus-visible {
+  outline: 2px solid var(--ifx-green);
+  outline-offset: 4px;
+}
+
+.results-section .comparison-caption {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.65fr) minmax(200px, 1.7fr) minmax(180px, 1fr);
+  align-items: start;
+  gap: 18px;
+  padding: 22px 3px 0;
+  color: var(--ifx-muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.results-section .comparison-caption p {
+  margin: 0;
+}
+
+.results-section .comparison-caption .comparison-client {
+  color: var(--ifx-text);
+  font-weight: 700;
+}
+
+.results-section .comparison-caption strong {
+  color: var(--ifx-green);
+}
+
+.results-section .comparison-text-fallback {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--ifx-border);
+  border-radius: 14px;
+  background: var(--ifx-surface);
+  color: var(--ifx-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.results-section .comparison-text-fallback > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.results-section .comparison-text-fallback p {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   BUILD MY BRIEF
+   ========================================================= */
+
+.brief-card {
+  width: 100%;
+  max-width: 680px;
+  margin: 0;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid var(--ifx-border);
+  border-radius: var(--ifx-radius);
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgba(155, 255, 176, 0.055),
+      transparent 42%
+    ),
+    var(--ifx-surface);
+  color: var(--ifx-text);
+  box-shadow: var(--ifx-shadow);
+}
+
+.brief-card .brief-progress {
+  margin-bottom: 30px;
+}
+
+.brief-card .brief-progress-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: var(--ifx-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.brief-card .brief-progress-track {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(190, 225, 197, 0.14);
+}
+
+.brief-card .brief-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ifx-green);
+  transition: width 0.3s ease;
+}
+
+.brief-card .brief-step-dots {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+}
+
+.brief-card .brief-step-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(190, 225, 197, 0.2);
+}
+
+.brief-card .brief-step-dots span.filled {
+  background: var(--ifx-green);
+  box-shadow: 0 0 0 3px rgba(155, 255, 176, 0.12);
+}
+
+.brief-card .brief-step-content {
+  animation: ifx-brief-enter 0.25s ease both;
+}
+
+@keyframes ifx-brief-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(10px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.brief-card h3 {
+  margin: 0 0 8px;
+  color: var(--ifx-text);
+  font-size: clamp(1.55rem, 4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.brief-card .brief-hint {
+  margin: 0 0 22px;
+  color: var(--ifx-muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.brief-card .brief-option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.brief-card .brief-option-card {
+  position: relative;
+  display: flex;
+  min-height: 75px;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--ifx-border);
+  border-radius: 12px;
+  background: var(--ifx-bg-soft);
+  color: var(--ifx-text);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.brief-card .brief-option-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(155, 255, 176, 0.45);
+}
+
+.brief-card .brief-option-card.selected,
+.brief-card .brief-chip.selected {
+  border-color: var(--ifx-green);
+  background: rgba(155, 255, 176, 0.075);
+}
+
+.brief-card .brief-option-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(155, 255, 176, 0.09);
+  color: var(--ifx-green);
+  font-size: 18px;
+}
+
+.brief-card .brief-option-check {
+  margin-left: auto;
+  color: var(--ifx-green);
+  opacity: 0;
+}
+
+.brief-card .brief-option-card.selected .brief-option-check {
+  opacity: 1;
+}
+
+.brief-card .brief-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.brief-card .brief-chip {
+  padding: 12px 15px;
+  border: 1px solid var(--ifx-border);
+  border-radius: 999px;
+  background: var(--ifx-bg-soft);
+  color: var(--ifx-text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.brief-card .brief-chip.selected {
+  color: var(--ifx-green);
+}
+
+.brief-card .brief-chip span {
+  margin-left: 5px;
+}
+
+.brief-card .brief-fields {
+  display: grid;
+  gap: 15px;
+}
+
+.brief-card .brief-fields label {
+  display: grid;
+  gap: 7px;
+  color: var(--ifx-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.brief-card .brief-fields label > span {
+  display: inline;
+  color: var(--ifx-green);
+}
+
+.brief-card .brief-fields label small {
+  display: inline;
+  color: var(--ifx-muted);
+  font-weight: 400;
+}
+
+.brief-card .brief-fields input,
+.brief-card .brief-fields textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid var(--ifx-border);
+  border-radius: 8px;
+  background: #090e0b;
+  color: var(--ifx-text);
+  font: 400 13px 'DM Sans', sans-serif;
+  resize: vertical;
+}
+
+.brief-card .brief-fields input::placeholder,
+.brief-card .brief-fields textarea::placeholder {
+  color: #78877b;
+  opacity: 1;
+}
+
+.brief-card .brief-fields input:focus,
+.brief-card .brief-fields textarea:focus {
+  border-color: rgba(155, 255, 176, 0.6);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(155, 255, 176, 0.07);
+}
+
+.brief-card .field-error,
+.brief-card .brief-inline-error {
+  color: #ff9c8a !important;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.brief-card .brief-honeypot {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+}
+
+.brief-card .brief-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.brief-card .brief-action-spacer {
+  flex: 1;
+}
+
+.brief-card .brief-next,
+.brief-card .brief-back {
+  min-height: 46px;
+  padding: 12px 21px;
+  border-radius: 8px;
+  font: 700 13px 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.brief-card .brief-next {
+  border: 1px solid var(--ifx-green);
+  background: var(--ifx-green);
+  color: #07100a;
+}
+
+.brief-card .brief-next:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--ifx-green-bright);
+}
+
+.brief-card .brief-next:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.brief-card .brief-back {
+  border: 1px solid var(--ifx-border);
+  background: transparent;
+  color: var(--ifx-text);
+}
+
+.brief-card .brief-back:hover {
+  border-color: rgba(155, 255, 176, 0.45);
+}
+
+.brief-card .brief-privacy {
+  margin: 20px 0 0;
+  color: var(--ifx-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.brief-card .brief-privacy-bottom {
+  text-align: center;
+}
+
+.brief-card .brief-summary-list {
+  border-top: 1px solid var(--ifx-border);
+}
+
+.brief-card .brief-summary-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--ifx-border);
+}
+
+.brief-card .brief-summary-row strong {
+  color: var(--ifx-text);
+  font-size: 12px;
+}
+
+.brief-card .brief-summary-row p {
+  margin: 5px 0 0;
+  color: var(--ifx-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.brief-card .brief-edit-link {
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--ifx-green);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.brief-card .brief-error {
+  margin-bottom: 18px;
+  padding: 14px;
+  border: 1px solid rgba(255, 156, 138, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 156, 138, 0.08);
+  color: var(--ifx-text);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.brief-card .brief-error button {
+  margin-left: 10px;
+  border: 0;
+  background: none;
+  color: var(--ifx-green);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.brief-card .brief-error p {
+  margin: 8px 0 0;
+}
+
+.brief-card .brief-error a {
+  color: var(--ifx-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.brief-card .brief-success {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  text-align: center;
+}
+
+.brief-card .success-check {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--ifx-green);
+  color: #07100a;
+  font-size: 34px;
+  animation: ifx-check-pop 0.4s ease both;
+}
+
+@keyframes ifx-check-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.brief-card .brief-success h3 {
+  margin-bottom: 10px;
+}
+
+.brief-card .brief-success > p {
+  color: var(--ifx-muted);
+}
+
+.brief-card .brief-success-summary {
+  margin-top: 25px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--ifx-bg-soft);
+  text-align: left;
+}
+
+.brief-card .brief-success-summary p {
+  margin-bottom: 0;
+  color: var(--ifx-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .results-section .comparison-caption {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .results-section .comparison-card {
+    height: clamp(320px, 95vw, 440px);
+  }
+
+  .results-section .comparison-copy {
+    padding: 24px 18px;
+  }
+
+  .results-section .comparison-copy h3 {
+    font-size: clamp(1.35rem, 7vw, 2.2rem);
+  }
+
+  .results-section .comparison-text-fallback > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .brief-card {
+    padding: 22px 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .brief-card .brief-option-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brief-card .brief-option-card {
+    min-height: 60px;
+  }
+
+  .results-section .comparison-tabs {
+    gap: 7px;
+  }
+
+  .results-section .comparison-tab {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .results-section .comparison-label {
+    top: 12px;
+  }
+
+  .results-section .before-label {
+    left: 12px;
+  }
+
+  .results-section .after-label {
+    right: 12px;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY: REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .brief-card .brief-step-content,
+  .brief-card .success-check {
+    animation: none !important;
+  }
+
+  .brief-card .brief-progress-track span,
+  .results-section .comparison-tab,
+  .custom-cursor-layer .cursor-ring {
+    transition: none !important;
+  }
+}

@@ -1,485 +1,428 @@
 
-import { useState, type FormEvent } from 'react';
-import './App.css';
+import { useState, type FormEvent } from "react";
+import "./App.css";
+import CinematicIntro from "./Intro";
+import CustomCursor from "./InteractiveFeatures";
+import MusicPlayer from "./MusicPlayer";
 
-type FormStatus = 'idle' | 'sending' | 'success' | 'error';
+const projects = [
+  {
+    number: "01",
+    category: "FINANCE · WEB APPLICATION",
+    title: "Forex Tools",
+    description:
+      "An interactive collection of forex calculation tools designed to make trading mathematics easier to understand.",
+    link: "https://all-in-one-forex-tools.onrender.com/",
+    linkText: "Explore project",
+  },
+  {
+    number: "02",
+    category: "MUSIC · CREATIVE PROJECT",
+    title: "Frenzy Crave",
+    description:
+      "A creative music project exploring sound, identity, and visual storytelling.",
+    link: "https://www.youtube.com/@frenzycrave369",
+    linkText: "Visit channel",
+  },
+  {
+    number: "03",
+    category: "MEDIA · CONTENT CREATION",
+    title: "The Enigmatic Pedia",
+    description:
+      "A YouTube project built around curiosity, research, and engaging digital content.",
+    link: "https://www.youtube.com/@TheEnigmaticPedia",
+    linkText: "Visit channel",
+  },
+];
+
+const skills = [
+  "React",
+  "TypeScript",
+  "JavaScript",
+  "HTML & CSS",
+  "Web Development",
+  "AI Tools",
+  "Creative Projects",
+  "Problem Solving",
+];
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+  const [formStatus, setFormStatus] = useState("");
+  const [sending, setSending] = useState(false);
 
-  function closeMenu() {
-    setMenuOpen(false);
-  }
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSending(true);
+    setFormStatus("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    setFormStatus('sending');
-
     try {
-      const response = await fetch('https://formspree.io/f/xvkkgjer', {
-        method: 'POST',
+      const response = await fetch("https://formspree.io/f/xvkkgjer", {
+        method: "POST",
         body: formData,
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: { Accept: "application/json" },
       });
 
       if (response.ok) {
+        setFormStatus("Message sent successfully. Thank you for reaching out.");
         form.reset();
-        setFormStatus('success');
       } else {
-        setFormStatus('error');
+        setFormStatus("Your message could not be sent. Please try again.");
       }
     } catch {
-      setFormStatus('error');
+      setFormStatus(
+        "Connection error. Please check your internet and try again.",
+      );
+    } finally {
+      setSending(false);
     }
   }
 
   return (
     <>
-      <header className="navbar">
-        <a className="logo" href="#home" onClick={closeMenu}>
-          SS<span>.</span>
-        </a>
+      <CinematicIntro />
+      <CustomCursor />
 
-        <button
-          className="menu-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
-          type="button"
-        >
-          {menuOpen ? '✕' : '☰'}
-        </button>
+      <div className="portfolio-shell" id="top">
+        <header className="site-header">
+          <a
+            href="#top"
+            className="brand"
+            aria-label="Safal Silwal home"
+            onClick={() => setMenuOpen(false)}
+          >
+            <img
+              src="/images/logo.png"
+              alt="Safal Silwal logo"
+              className="brand-logo"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+              }}
+            />
 
-        <nav className={menuOpen ? 'nav-links open' : 'nav-links'}>
-          <a href="#about" onClick={closeMenu}>About</a>
-          <a href="#projects" onClick={closeMenu}>Projects</a>
-          <a href="#skills" onClick={closeMenu}>Skills</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-cta" href="#contact" onClick={closeMenu}>
-            Hire me <span>↗</span>
+            <span className="brand-name">SAFAL SILWAL</span>
           </a>
-        </nav>
-      </header>
 
-      <main>
-        {/* Hero */}
-        <section className="hero section" id="home">
-          <div className="hero-content">
-            <div className="availability">
-              <span className="status-dot" />
-              Open to freelance opportunities
-            </div>
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+          </button>
 
-            <p className="eyebrow">HELLO, I'M</p>
-            <h1>Safal <span>Silwal.</span></h1>
-
-            <h2>
-              Building my skills.
-              <br />
-              Creating what's next.
-            </h2>
-
-            <p className="hero-description">
-              I'm developing my skills and working towards creating
-              useful, thoughtful digital experiences. I'm open to
-              connecting with people who have interesting projects.
-            </p>
-
-            <div className="hero-actions">
-              <a className="button button-primary" href="#projects">
-                Explore my work <span>↗</span>
-              </a>
-
+          <nav className={menuOpen ? "main-nav nav-open" : "main-nav"}>
+            {[
+              ["About", "#about"],
+              ["Projects", "#projects"],
+              ["Skills", "#skills"],
+              ["Contact", "#contact"],
+            ].map(([label, href]) => (
               <a
-                className="button button-secondary"
-                href="/files/safal-cv.pdf"
-                download
+                href={href}
+                key={label}
+                onClick={() => setMenuOpen(false)}
               >
-                Download CV <span>↓</span>
+                {label}
               </a>
-            </div>
+            ))}
 
-            <div className="hero-socials">
-              <span>FIND ME ON</span>
-              <a href="#skills">My YouTube channels ↗</a>
-              <a href="#contact">Get in touch ↗</a>
-            </div>
-          </div>
-
-          <div className="hero-visual">
-            <div className="photo-frame">
-              <img
-                src="/images/profile.jpg"
-                alt="Portrait of Safal Silwal"
-              />
-            </div>
-
-            <div className="photo-caption">
-              <span className="caption-mark">✳</span>
-              <div>
-                <strong>Safal Silwal</strong>
-                <p>Learning. Building. Improving.</p>
-              </div>
-            </div>
-
-            <div className="decorative-circle" />
-          </div>
-        </section>
-
-        {/* About */}
-        <section className="about section" id="about">
-          <div className="section-heading">
-            <p className="eyebrow">A LITTLE ABOUT ME</p>
-            <h2>
-              Curious by nature.
-              <br />
-              Driven to <span>create.</span>
-            </h2>
-          </div>
-
-          <div className="about-content">
-            <p>
-              I'm at the beginning of my learning journey, developing
-              my skills and exploring how ideas become useful digital
-              products.
-            </p>
-
-            <p>
-              I'm interested in connecting with people, learning from
-              real projects, and finding opportunities to contribute.
-              This portfolio will grow as I gain experience and build
-              work I can share.
-            </p>
-
-            <a className="text-link" href="#contact">
-              Let's talk about your project ↗
+            <a
+              className="nav-cta"
+              href="#contact"
+              onClick={() => setMenuOpen(false)}
+            >
+              Let's talk <span>↗</span>
             </a>
-          </div>
-        </section>
+          </nav>
+        </header>
 
-        {/* Projects */}
-        <section className="projects section" id="projects">
-          <div className="section-title-row">
-            <div>
-              <p className="eyebrow">SELECTED WORK</p>
-              <h2>
-                Projects & <span>experiments.</span>
-              </h2>
-            </div>
+        <main>
+          <section className="hero section-container">
+            <div className="hero-copy">
+              <p className="eyebrow">
+                <span className="status-dot" />
+                INDEPENDENT CREATOR · DEVELOPER
+              </p>
 
-            <p className="section-note">
-              Websites, content projects, and practical experiments
-              I'm developing and sharing.
-            </p>
-          </div>
+              <h1>
+                Building ideas
+                <br />
+                into <span className="serif-accent">something</span>
+                <br />
+                meaningful<span className="title-period">.</span>
+              </h1>
 
-          <div className="project-grid">
-            <article className="project-card">
-              <a
-                className="project-placeholder project-link-visual"
-                href="https://all-in-one-forex-tools.onrender.com/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Open All-in-One Forex Tools website"
-              >
-                <span>01 / LIVE WEBSITE</span>
-                <span className="placeholder-symbol">↗</span>
-              </a>
+              <p className="hero-description">
+                I'm Safal Silwal. I explore technology, build digital
+                experiences, and turn curiosity into projects.
+              </p>
 
-              <div className="project-info">
-                <p className="project-type">DEPLOYED PROJECT</p>
-                <h3>All-in-One Forex Tools</h3>
+              <div className="hero-actions">
+                <a className="button button-dark" href="#projects">
+                  Explore my work <span>↘</span>
+                </a>
 
-                <p>
-                  A live website bringing together useful tools for
-                  people learning about Forex. Visit the deployed
-                  project to explore it.
-                </p>
-
-                <div className="tags">
-                  <span>Web development</span>
-                  <span>Live deployment</span>
-                </div>
-
-                <a
-                  className="text-link project-external-link"
-                  href="https://all-in-one-forex-tools.onrender.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Visit website ↗
+                <a className="text-link" href="#about">
+                  Get to know me <span>↗</span>
                 </a>
               </div>
-            </article>
 
-            <article className="project-card">
-              <div className="project-placeholder project-placeholder-alt">
-                <span>02 / VIDEO CONTENT</span>
-                <span className="placeholder-symbol">▶</span>
-              </div>
-
-              <div className="project-info">
-                <p className="project-type">SOCIAL MEDIA & CONTENT</p>
-                <h3>YouTube channel projects</h3>
-
-                <p>
-                  I create and manage content across gaming, vlogging,
-                  and mystery-themed YouTube channels while developing
-                  my video editing and content-presentation skills.
-                </p>
-
-                <div className="tags">
-                  <span>Content creation</span>
-                  <span>Video editing</span>
-                  <span>YouTube</span>
-                </div>
-
-                <a className="text-link project-external-link" href="#skills">
-                  Explore my channels ↓
-                </a>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        {/* Skills and YouTube channels */}
-        <section className="skills section" id="skills">
-          <div className="section-heading">
-            <p className="eyebrow">WHAT I'M LEARNING</p>
-            <h2>
-              Skills & <span>growth.</span>
-            </h2>
-
-            <p className="section-note">
-              A practical snapshot of the skills I'm developing and
-              the content I create.
-            </p>
-          </div>
-
-          <div className="skill-groups">
-            <div className="skill-group">
-              <span className="skill-number">01</span>
-              <h3>Web development</h3>
-
-              <p>
-                Building and improving websites, learning through
-                practical projects, and publishing work online.
-              </p>
-
-              <a
-                className="skill-link"
-                href="https://all-in-one-forex-tools.onrender.com/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                View my deployed website ↗
-              </a>
-            </div>
-
-            <div className="skill-group">
-              <span className="skill-number">02</span>
-              <h3>Social media handling</h3>
-
-              <p>
-                Managing my own YouTube channels and exploring how
-                to organise, present, and share content for different
-                audiences.
-              </p>
-
-              <ul className="channel-list">
-                <li>
-                  <a
-                    href="https://www.youtube.com/@frenzycrave369"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Gaming channel <span>↗</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="https://www.youtube.com/@glazeproject339"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Vlogs channel <span>↗</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="https://www.youtube.com/@TheEnigmaticPedia"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Mystery & enigmatic videos <span>↗</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="skill-group">
-              <span className="skill-number">03</span>
-              <h3>Video editing & content</h3>
-
-              <p>
-                Developing video editing skills by working on my own
-                channel content, with a focus on clear presentation
-                and engaging visuals.
-              </p>
-
-              <div className="tags">
-                <span>Video editing</span>
-                <span>Content creation</span>
-                <span>YouTube</span>
+              <div className="hero-index">
+                <span>PORTFOLIO / 2026</span>
+                <span>INDEPENDENT BY DESIGN</span>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Contact form */}
-        <section className="contact section" id="contact">
-          <div className="contact-copy">
-            <p className="eyebrow">HAVE A PROJECT IN MIND?</p>
-            <h2>
-              Let's make something <span>useful.</span>
-            </h2>
+            <div className="hero-art" aria-label="Personal portfolio artwork">
+              <div className="art-grid" />
+              <div className="art-orbit orbit-one" />
+              <div className="art-orbit orbit-two" />
+              <div className="art-monogram">S</div>
 
+              <div className="art-caption">
+                <span>FIG. 001</span>
+                <span>IDEAS IN MOTION</span>
+              </div>
+
+              <span className="art-cross cross-one">+</span>
+              <span className="art-cross cross-two">+</span>
+
+              <div className="art-stamp">
+                CURIOUS
+                <br />
+                BY NATURE
+              </div>
+            </div>
+
+            <a className="scroll-cue" href="#about">
+              <span className="scroll-line" />
+              SCROLL TO EXPLORE
+            </a>
+          </section>
+
+          <section className="intro-strip">
             <p>
-              Have a question, a project idea, or a potential
-              opportunity? Send me a message using the form.
+              CURIOUS MIND <span>✳</span> DIGITAL CRAFT <span>✳</span>{" "}
+              CONTINUOUS LEARNING <span>✳</span> BIG IDEAS
             </p>
+          </section>
 
-            <p className="contact-note">
-              Fields marked with * are required.
-            </p>
-          </div>
-
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <label htmlFor="name">Your name *</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="name"
-              placeholder="Enter your name"
-              required
-              maxLength={100}
-              disabled={formStatus === 'sending'}
-            />
-
-            <label htmlFor="email">Email address *</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="you@example.com"
-              required
-              maxLength={254}
-              disabled={formStatus === 'sending'}
-            />
-
-            <label htmlFor="company">Company (optional)</label>
-            <input
-              id="company"
-              name="company"
-              type="text"
-              autoComplete="organization"
-              placeholder="Your company or organisation"
-              maxLength={150}
-              disabled={formStatus === 'sending'}
-            />
-
-            <label htmlFor="projectType">
-              What can I help with? *
-            </label>
-
-            <select
-              id="projectType"
-              name="projectType"
-              defaultValue=""
-              required
-              disabled={formStatus === 'sending'}
-            >
-              <option value="" disabled>
-                Select an option
-              </option>
-              <option value="Freelance project">
-                Freelance project
-              </option>
-              <option value="Employment opportunity">
-                Employment opportunity
-              </option>
-              <option value="Collaboration">
-                Collaboration
-              </option>
-              <option value="General enquiry">
-                General enquiry
-              </option>
-            </select>
-
-            <label htmlFor="message">Your message *</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="Tell me about your idea or opportunity..."
-              rows={5}
-              required
-              minLength={10}
-              maxLength={5000}
-              disabled={formStatus === 'sending'}
-            />
-
-            <button
-              className="button button-primary submit-button"
-              type="submit"
-              disabled={formStatus === 'sending'}
-            >
-              {formStatus === 'sending'
-                ? 'Sending...'
-                : 'Send enquiry'}
-
-              {formStatus !== 'sending' && <span>↗</span>}
-            </button>
-
-            <div aria-live="polite" aria-atomic="true">
-              {formStatus === 'success' && (
-                <p className="form-message" role="status">
-                  Thank you for your message! Your enquiry was
-                  submitted successfully.
-                </p>
-              )}
-
-              {formStatus === 'error' && (
-                <p className="form-message" role="alert">
-                  Your message could not be sent. Please try again
-                  or contact me through another channel.
-                </p>
-              )}
+          <section className="about section-container" id="about">
+            <div className="section-heading">
+              <p className="eyebrow">01 / A LITTLE ABOUT ME</p>
+              <span className="heading-decoration">✳</span>
             </div>
-          </form>
-        </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="footer">
-        <a className="logo" href="#home">
-          SS<span>.</span>
-        </a>
+            <div className="about-layout">
+              <h2>
+                Curious about
+                <br />
+                <span className="serif-accent">what's possible.</span>
+              </h2>
 
-        <p>© {new Date().getFullYear()} Safal Silwal.</p>
+              <div className="about-copy">
+                <p>
+                  I’m an independent learner interested in technology,
+                  creative work, and building useful things on the internet.
+                </p>
 
-        <a href="#home">Back to top ↑</a>
-      </footer>
+                <p>
+                  I believe the best way to learn is to make something real,
+                  understand how it works, improve what doesn't, and keep
+                  going.
+                </p>
+
+                <p>
+                  This portfolio is a home for the things I build, the ideas
+                  I explore, and the skills I develop along the way.
+                </p>
+
+                <a className="text-link" href="#contact">
+                  Have an idea? Let's connect <span>↗</span>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section className="projects-section" id="projects">
+            <div className="section-container">
+              <div className="section-heading">
+                <p className="eyebrow">02 / SELECTED WORK</p>
+                <span className="section-note">A WORK IN PROGRESS</span>
+              </div>
+
+              <div className="projects-title-row">
+                <h2>
+                  Made with
+                  <br />
+                  <span className="serif-accent">curiosity.</span>
+                </h2>
+
+                <p>
+                  A selection of digital experiments, creative projects, and
+                  ideas brought to life.
+                </p>
+              </div>
+
+              <div className="project-list">
+                {projects.map((project) => (
+                  <article className="project-card" key={project.number}>
+                    <span className="project-number">{project.number}</span>
+
+                    <div className="project-info">
+                      <p className="project-category">{project.category}</p>
+                      <h3>{project.title}</h3>
+                      <p className="project-description">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <a
+                      className="project-link"
+                      href={project.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${project.linkText}: ${project.title}`}
+                    >
+                      <span>{project.linkText}</span>
+                      <span className="project-arrow">↗</span>
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="skills-section section-container" id="skills">
+            <div className="section-heading">
+              <p className="eyebrow">03 / TOOLS & INTERESTS</p>
+              <span className="section-note">ALWAYS LEARNING</span>
+            </div>
+
+            <div className="skills-layout">
+              <h2>
+                Learning.
+                <br />
+                <span className="serif-accent">Making.</span>
+                <br />
+                Improving.
+              </h2>
+
+              <div className="skills-content">
+                <p>
+                  My toolkit grows with every project. These are the
+                  technologies and areas I work with or explore.
+                </p>
+
+                <div className="skill-tags">
+                  {skills.map((skill) => (
+                    <span className="skill-tag" key={skill}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="contact-section" id="contact">
+            <div className="section-container">
+              <div className="section-heading">
+                <p className="eyebrow">04 / GET IN TOUCH</p>
+                <span className="heading-decoration">↗</span>
+              </div>
+
+              <div className="contact-layout">
+                <div className="contact-copy">
+                  <h2>
+                    Have something
+                    <br />
+                    <span className="serif-accent">in mind?</span>
+                  </h2>
+
+                  <p>
+                    Have a question, an idea, or an interesting project?
+                    Send me a message.
+                  </p>
+
+                  <span className="contact-email">
+                    Use the contact form <span>↗</span>
+                  </span>
+                </div>
+
+                <form className="contact-form" onSubmit={handleContactSubmit}>
+                  <label htmlFor="contact-name">Your name</label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    placeholder="What should I call you?"
+                    autoComplete="name"
+                    required
+                  />
+
+                  <label htmlFor="contact-email">Email address</label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    required
+                  />
+
+                  <label htmlFor="contact-message">Your message</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    placeholder="Tell me what's on your mind..."
+                    rows={4}
+                    required
+                  />
+
+                  <button
+                    className="button button-dark submit-button"
+                    type="submit"
+                    disabled={sending}
+                  >
+                    {sending ? "Sending..." : "Send message"}
+                    <span>↗</span>
+                  </button>
+
+                  {formStatus && (
+                    <p className="form-status" role="status">
+                      {formStatus}
+                    </p>
+                  )}
+                </form>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer className="site-footer">
+          <a className="footer-brand" href="#top">
+            SS<span>.</span>
+          </a>
+
+          <p>DESIGNED WITH CURIOSITY · BUILT BY SAFAL SILWAL</p>
+
+          <a href="#top" className="back-to-top">
+            BACK TO TOP ↑
+          </a>
+
+          <span className="footer-year">© 2026</span>
+        </footer>
+      </div>
+
+      <MusicPlayer />
     </>
   );
 }
