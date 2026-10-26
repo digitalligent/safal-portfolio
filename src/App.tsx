@@ -918,7 +918,6 @@ function SkillIcon({ name }: { name: SkillGroup["icon"] }) {
 function App() {
 const [theme, setTheme] = useState<Theme>("dark");
 const [introFinished, setIntroFinished] = useState(false);
-const [termsAccepted, setTermsAccepted] = useState(false);
 
 const [language, setLanguage] = useState<Language>(() => {
   try {
