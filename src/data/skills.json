@@ -1,63 +1,58 @@
-
 [
   {
-    "id": "react",
-    "name": "React",
-    "category": "Development"
+    "id": "html",
+    "label": "HTML5"
   },
   {
-    "id": "typescript",
-    "name": "TypeScript",
-    "category": "Development"
+    "id": "css",
+    "label": "CSS3"
   },
   {
     "id": "javascript",
-    "name": "JavaScript",
-    "category": "Development"
+    "label": "JavaScript"
   },
   {
-    "id": "html-css",
-    "name": "HTML & CSS",
-    "category": "Development"
+    "id": "typescript",
+    "label": "TypeScript"
   },
   {
-    "id": "web-development",
-    "name": "Web Development",
-    "category": "Development"
+    "id": "react",
+    "label": "React"
   },
   {
-    "id": "ai-tools",
-    "name": "AI Tools",
-    "category": "AI & Productivity"
+    "id": "vite",
+    "label": "Vite"
   },
   {
-    "id": "prompt-engineering",
-    "name": "Prompt Engineering",
-    "category": "AI & Productivity"
+    "id": "git",
+    "label": "Git"
   },
   {
-    "id": "photoshop",
-    "name": "Photoshop",
-    "category": "Creative"
+    "id": "github",
+    "label": "GitHub"
+  },
+  {
+    "id": "nodejs",
+    "label": "Node.js"
+  },
+  {
+    "id": "rest-api",
+    "label": "REST APIs"
+  },
+  {
+    "id": "responsive-design",
+    "label": "Responsive Design"
+  },
+  {
+    "id": "accessibility",
+    "label": "Web Accessibility"
   },
   {
     "id": "figma",
-    "name": "Figma",
-    "category": "Creative"
-  },
-  {
-    "id": "davinci-resolve",
-    "name": "DaVinci Resolve",
-    "category": "Creative"
-  },
-  {
-    "id": "creative-projects",
-    "name": "Creative Projects",
-    "category": "Creative"
+    "label": "Figma"
   },
   {
     "id": "problem-solving",
-    "name": "Problem Solving",
-    "category": "General"
+    "label": "Problem Solving"
   }
 ]
