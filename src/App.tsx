@@ -1,5 +1,5 @@
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import "./App.css";
 import CinematicIntro from "./Intro";
 import CustomCursor from "./InteractiveFeatures";
@@ -9,9 +9,9 @@ const projects = [
   {
     number: "01",
     category: "FINANCE · WEB APPLICATION",
-    title: "Forex Tools",
+    title: "All-in-One Forex Tools",
     description:
-      "An interactive collection of forex calculation tools designed to make trading mathematics easier to understand.",
+      "An interactive collection of Forex calculation tools designed to make trading mathematics easier to understand.",
     link: "https://all-in-one-forex-tools.onrender.com/",
     linkText: "Explore project",
   },
@@ -20,7 +20,7 @@ const projects = [
     category: "MUSIC · CREATIVE PROJECT",
     title: "Frenzy Crave",
     description:
-      "A creative music project exploring sound, identity, and visual storytelling.",
+      "A creative YouTube project exploring music, gaming, and digital content.",
     link: "https://www.youtube.com/@frenzycrave369",
     linkText: "Visit channel",
   },
@@ -29,7 +29,7 @@ const projects = [
     category: "MEDIA · CONTENT CREATION",
     title: "The Enigmatic Pedia",
     description:
-      "A YouTube project built around curiosity, research, and engaging digital content.",
+      "A YouTube project focused on curiosity, research, and mystery-themed content.",
     link: "https://www.youtube.com/@TheEnigmaticPedia",
     linkText: "Visit channel",
   },
@@ -42,6 +42,10 @@ const skills = [
   "HTML & CSS",
   "Web Development",
   "AI Tools",
+  "Prompt Engineering",
+  "Photoshop",
+  "Figma",
+  "DaVinci Resolve",
   "Creative Projects",
   "Problem Solving",
 ];
@@ -50,8 +54,31 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState("");
   const [sending, setSending] = useState(false);
+  const [visitorTime, setVisitorTime] = useState(() =>
+    new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }),
+  );
 
-  async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setVisitorTime(
+        new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      );
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  async function handleContactSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
     setSending(true);
     setFormStatus("");
@@ -60,17 +87,24 @@ function App() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("https://formspree.io/f/xvkkgjer", {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
-      });
+      const response = await fetch(
+        "https://formspree.io/f/xvkkgjer",
+        {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" },
+        },
+      );
 
       if (response.ok) {
-        setFormStatus("Message sent successfully. Thank you for reaching out.");
+        setFormStatus(
+          "Message sent successfully. Thank you for reaching out.",
+        );
         form.reset();
       } else {
-        setFormStatus("Your message could not be sent. Please try again.");
+        setFormStatus(
+          "Your message could not be sent. Please try again.",
+        );
       }
     } catch {
       setFormStatus(
@@ -94,22 +128,17 @@ function App() {
             aria-label="Safal Silwal home"
             onClick={() => setMenuOpen(false)}
           >
-            <img
-              src="/images/logo.png"
-              alt="Safal Silwal logo"
-              className="brand-logo"
-              onError={(event) => {
-                event.currentTarget.style.display = "none";
-              }}
-            />
-
-            <span className="brand-name">SAFAL SILWAL</span>
+            <span className="brand-name">
+              SAFAL SILWAL<span>.</span>
+            </span>
           </a>
 
           <button
             className="menu-toggle"
             type="button"
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-label={
+              menuOpen ? "Close navigation" : "Open navigation"
+            }
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
           >
@@ -117,7 +146,10 @@ function App() {
             <span />
           </button>
 
-          <nav className={menuOpen ? "main-nav nav-open" : "main-nav"}>
+          <nav
+            className={menuOpen ? "main-nav nav-open" : "main-nav"}
+            aria-label="Main navigation"
+          >
             {[
               ["About", "#about"],
               ["Projects", "#projects"],
@@ -144,7 +176,7 @@ function App() {
         </header>
 
         <main>
-          <section className="hero section-container">
+          <section className="hero section-container" id="home">
             <div className="hero-copy">
               <p className="eyebrow">
                 <span className="status-dot" />
@@ -169,18 +201,34 @@ function App() {
                   Explore my work <span>↘</span>
                 </a>
 
-                <a className="text-link" href="#about">
-                  Get to know me <span>↗</span>
+                <a
+                  className="button button-secondary"
+                  href="/files/safal-cv.pdf"
+                  download
+                >
+                  Download CV <span>↓</span>
                 </a>
               </div>
 
-              <div className="hero-index">
-                <span>PORTFOLIO / 2026</span>
-                <span>INDEPENDENT BY DESIGN</span>
+              <div className="hero-socials">
+                <a
+                  href="https://www.linkedin.com/in/safal-silwal-a01aa2341/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  LinkedIn ↗
+                </a>
+                <a
+                  href="https://www.pinterest.com/silwalsafal369/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Pinterest ↗
+                </a>
               </div>
             </div>
 
-            <div className="hero-art" aria-label="Personal portfolio artwork">
+            <div className="hero-art">
               <div className="art-grid" />
               <div className="art-orbit orbit-one" />
               <div className="art-orbit orbit-two" />
@@ -229,23 +277,25 @@ function App() {
 
               <div className="about-copy">
                 <p>
-                  I’m an independent learner interested in technology,
-                  creative work, and building useful things on the internet.
+                  I'm an independent learner interested in technology,
+                  creative work, music, and building useful things on
+                  the internet.
                 </p>
 
                 <p>
-                  I believe the best way to learn is to make something real,
-                  understand how it works, improve what doesn't, and keep
-                  going.
+                  I've explored tools such as Photoshop, Figma,
+                  DaVinci Resolve, and AI tools. I learn by building
+                  real projects, solving problems, and improving what
+                  I've made.
                 </p>
 
                 <p>
-                  This portfolio is a home for the things I build, the ideas
-                  I explore, and the skills I develop along the way.
+                  I'm open to connecting with people and discussing
+                  suitable projects and opportunities.
                 </p>
 
                 <a className="text-link" href="#contact">
-                  Have an idea? Let's connect <span>↗</span>
+                  Let's connect <span>↗</span>
                 </a>
               </div>
             </div>
@@ -255,7 +305,7 @@ function App() {
             <div className="section-container">
               <div className="section-heading">
                 <p className="eyebrow">02 / SELECTED WORK</p>
-                <span className="section-note">A WORK IN PROGRESS</span>
+                <span className="section-note">PROJECTS IN PROGRESS</span>
               </div>
 
               <div className="projects-title-row">
@@ -266,18 +316,25 @@ function App() {
                 </h2>
 
                 <p>
-                  A selection of digital experiments, creative projects, and
-                  ideas brought to life.
+                  Digital tools, creative experiments, and ideas
+                  developed through hands-on learning.
                 </p>
               </div>
 
               <div className="project-list">
                 {projects.map((project) => (
-                  <article className="project-card" key={project.number}>
-                    <span className="project-number">{project.number}</span>
+                  <article
+                    className="project-card"
+                    key={project.number}
+                  >
+                    <span className="project-number">
+                      {project.number}
+                    </span>
 
                     <div className="project-info">
-                      <p className="project-category">{project.category}</p>
+                      <p className="project-category">
+                        {project.category}
+                      </p>
                       <h3>{project.title}</h3>
                       <p className="project-description">
                         {project.description}
@@ -300,7 +357,10 @@ function App() {
             </div>
           </section>
 
-          <section className="skills-section section-container" id="skills">
+          <section
+            className="skills-section section-container"
+            id="skills"
+          >
             <div className="section-heading">
               <p className="eyebrow">03 / TOOLS & INTERESTS</p>
               <span className="section-note">ALWAYS LEARNING</span>
@@ -317,8 +377,8 @@ function App() {
 
               <div className="skills-content">
                 <p>
-                  My toolkit grows with every project. These are the
-                  technologies and areas I work with or explore.
+                  My toolkit grows with every project. These are
+                  technologies and creative areas I use or explore.
                 </p>
 
                 <div className="skill-tags">
@@ -327,6 +387,23 @@ function App() {
                       {skill}
                     </span>
                   ))}
+                </div>
+
+                <div className="channel-links">
+                  <a
+                    href="https://www.youtube.com/@frenzycrave369"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Frenzy Crave on YouTube ↗
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@TheEnigmaticPedia"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    The Enigmatic Pedia ↗
+                  </a>
                 </div>
               </div>
             </div>
@@ -348,43 +425,70 @@ function App() {
                   </h2>
 
                   <p>
-                    Have a question, an idea, or an interesting project?
-                    Send me a message.
+                    Have a question, an idea, or an interesting
+                    opportunity? Send me a message.
                   </p>
 
-                  <span className="contact-email">
-                    Use the contact form <span>↗</span>
-                  </span>
+                  <p className="contact-note">
+                    Your details are used to respond to your enquiry.
+                  </p>
                 </div>
 
-                <form className="contact-form" onSubmit={handleContactSubmit}>
-                  <label htmlFor="contact-name">Your name</label>
+                <form
+                  className="contact-form"
+                  onSubmit={handleContactSubmit}
+                >
+                  <label htmlFor="contact-name">Your name *</label>
                   <input
                     id="contact-name"
                     name="name"
                     type="text"
-                    placeholder="What should I call you?"
+                    placeholder="Your name"
                     autoComplete="name"
+                    maxLength={100}
                     required
+                    disabled={sending}
                   />
 
-                  <label htmlFor="contact-email">Email address</label>
+                  <label htmlFor="contact-email">
+                    Email address *
+                  </label>
                   <input
                     id="contact-email"
                     name="email"
                     type="email"
                     placeholder="you@example.com"
                     autoComplete="email"
+                    maxLength={254}
                     required
+                    disabled={sending}
                   />
 
-                  <label htmlFor="contact-message">Your message</label>
+                  <label htmlFor="contact-project">
+                    What can I help with?
+                  </label>
+                  <select
+                    id="contact-project"
+                    name="projectType"
+                    defaultValue="General enquiry"
+                    disabled={sending}
+                  >
+                    <option>General enquiry</option>
+                    <option>Freelance project</option>
+                    <option>Employment opportunity</option>
+                    <option>Collaboration</option>
+                  </select>
+
+                  <label htmlFor="contact-message">Your message *</label>
                   <textarea
                     id="contact-message"
                     name="message"
-                    placeholder="Tell me what's on your mind..."
-                    rows={4}
+                    placeholder="Tell me about your idea..."
+                    rows={5}
+                    minLength={10}
+                    maxLength={5000}
                     required
+                    disabled={sending}
                   />
 
                   <button
@@ -414,11 +518,18 @@ function App() {
 
           <p>DESIGNED WITH CURIOSITY · BUILT BY SAFAL SILWAL</p>
 
+          <div className="visitor-clock">
+            <span>YOUR LOCAL TIME</span>
+            <strong>{visitorTime}</strong>
+          </div>
+
           <a href="#top" className="back-to-top">
             BACK TO TOP ↑
           </a>
 
-          <span className="footer-year">© 2026</span>
+          <span className="footer-year">
+            © {new Date().getFullYear()}
+          </span>
         </footer>
       </div>
 
