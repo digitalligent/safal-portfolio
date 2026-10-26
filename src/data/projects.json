@@ -7,7 +7,7 @@
     "category": "Web",
     "categoryLabel": "FINANCE · WEB APPLICATION",
     "description": "An interactive collection of Forex calculation tools designed to make trading mathematics easier to understand.",
-    "image": "",
+    "image": "/images/forex-tools.png",
     "tools": ["React", "TypeScript", "Web Development"],
     "link": "https://all-in-one-forex-tools.onrender.com/",
     "linkText": "Explore project",

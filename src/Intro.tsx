@@ -1,317 +1,167 @@
 
-import { useEffect, useRef, useState } from 'react';
-import './Intro.css';
+import { useEffect, useState } from "react";
+import "./Intro.css";
 
-type Phase = 'vault' | 'glitch' | 'leaving';
+type Greeting = {
+  text: string;
+  lang: string;
+  direction?: "rtl" | "ltr";
+};
 
-function createMathChallenge() {
-  const a = Math.floor(Math.random() * 9) + 2;
-  const b = Math.floor(Math.random() * 9) + 1;
-  const multiply = Math.random() < 0.5;
+type CinematicIntroProps = {
+  onComplete: () => void;
+};
 
-  return {
-    question: multiply ? `${a} × ${b}` : `${a} + ${b}`,
-    answer: multiply ? a * b : a + b,
-  };
-}
+const greetings: Greeting[] = [
+  { text: "Welcome to my portfolio", lang: "en" },
+  { text: "Bem-vindo ao meu portfólio", lang: "pt" },
+  { text: "Bienvenido a mi portafolio", lang: "es" },
+  { text: "Bienvenue sur mon portfolio", lang: "fr" },
+  { text: "Willkommen in meinem Portfolio", lang: "de" },
+  { text: "Benvenuto nel mio portfolio", lang: "it" },
+  { text: "मेरो पोर्टफोलियोमा स्वागत छ", lang: "ne" },
+  { text: "मेरे पोर्टफोलियो में आपका स्वागत है", lang: "hi" },
+  {
+    text: "مرحبًا بكم في معرض أعمالي",
+    lang: "ar",
+    direction: "rtl",
+  },
+  { text: "ポートフォリオへようこそ", lang: "ja" },
+  { text: "제 포트폴리오에 오신 것을 환영합니다", lang: "ko" },
+  { text: "欢迎来到我的作品集", lang: "zh" },
+  { text: "Добро пожаловать в моё портфолио", lang: "ru" },
+  { text: "Portföyüme hoş geldiniz", lang: "tr" },
+];
 
-export default function CinematicIntro() {
-  const [phase, setPhase] = useState<Phase>('vault');
-  const [challenge, setChallenge] = useState(createMathChallenge);
-  const [answer, setAnswer] = useState('');
-  const [error, setError] = useState(false);
-  const [opened, setOpened] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [feedback, setFeedback] = useState(
-    'SOLVE THE MATH TO CONTINUE',
-  );
+export default function CinematicIntro({
+  onComplete,
+}: CinematicIntroProps) {
+  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+  const [skipped, setSkipped] = useState(false);
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
-    const audio = new Audio('/sounds/locker-open.mp3');
+    if (reducedMotion) {
+      const timer = window.setTimeout(() => {
+        setLeaving(true);
+      }, 900);
 
-    audio.loop = false;
-    audio.volume = 0.35;
-    audio.muted = muted;
-    audioRef.current = audio;
+      return () => window.clearTimeout(timer);
+    }
+
+    const greetingTimer = window.setInterval(() => {
+      setGreetingIndex(
+        (current) => (current + 1) % greetings.length,
+      );
+    }, 650);
+
+    const finishTimer = window.setTimeout(() => {
+      setLeaving(true);
+    }, 9800);
 
     return () => {
-      audio.pause();
-      audioRef.current = null;
+      window.clearInterval(greetingTimer);
+      window.clearTimeout(finishTimer);
     };
-  }, []);
+  }, [reducedMotion]);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.muted = muted;
+    if (!leaving) return;
+
+    const timer = window.setTimeout(() => {
+      setSkipped(true);
+    }, reducedMotion ? 80 : 650);
+
+    return () => window.clearTimeout(timer);
+  }, [leaving, reducedMotion]);
+
+  useEffect(() => {
+    if (skipped) {
+      onComplete();
     }
-  }, [muted]);
+  }, [skipped, onComplete]);
 
-  function enterDigit(digit: string) {
-    if (opened || phase !== 'vault' || answer.length >= 3) {
-      return;
-    }
+  if (skipped) return null;
 
-    setAnswer((current) => current + digit);
-    setError(false);
-    setFeedback('ENTER YOUR ANSWER');
-  }
-
-  function clearAnswer() {
-    if (opened || phase !== 'vault') {
-      return;
-    }
-
-    setAnswer('');
-    setError(false);
-    setFeedback('ANSWER CLEARED');
-  }
-
-  function submitAnswer() {
-    if (opened || phase !== 'vault') {
-      return;
-    }
-
-    if (
-      answer.trim() !== '' &&
-      Number(answer) === challenge.answer
-    ) {
-      setOpened(true);
-      setFeedback('ACCESS GRANTED');
-
-      if (!muted && audioRef.current) {
-        audioRef.current.currentTime = 0;
-
-        void audioRef.current.play().catch(() => undefined);
-      }
-
-      window.setTimeout(() => {
-        setPhase('glitch');
-      }, 1200);
-
-      return;
-    }
-
-    setError(true);
-    setFeedback('INCORRECT ANSWER — TRY AGAIN');
-    setAnswer('');
-
-    window.setTimeout(() => {
-      setError(false);
-      setChallenge(createMathChallenge());
-      setFeedback('SOLVE THE MATH TO CONTINUE');
-    }, 650);
-  }
-
-  function finishIntro() {
-    if (phase === 'leaving') {
-      return;
-    }
-
-    setPhase('leaving');
-
-    window.setTimeout(() => {
-      window.dispatchEvent(
-        new Event('portfolio-intro-complete'),
-      );
-    }, 800);
-  }
-
-  if (phase === 'leaving') {
-    return null;
-  }
+  const greeting = greetings[greetingIndex];
 
   return (
     <div
-      className={`cinematic-intro ${
-        error ? 'intro-error' : ''
+      className={`portfolio-intro${
+        leaving ? " portfolio-intro--leaving" : ""
       }`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Welcome to Safal's portfolio"
     >
-      <div className="intro-vignette" />
-      <div className="intro-dust" />
+      <div
+        className="portfolio-intro__grid"
+        aria-hidden="true"
+      />
 
-      <p className="intro-eyebrow">
-        SAFAL SILWAL <span>•</span> PERSONAL PORTFOLIO
-      </p>
+      <div
+        className="portfolio-intro__glow"
+        aria-hidden="true"
+      />
 
-      {phase === 'vault' && (
-        <div className="vault-scene">
-          <div
-            className={`vault-art ${
-              opened ? 'vault-art-opened' : ''
-            }`}
+      <div
+        className="portfolio-intro__content"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <p className="portfolio-intro__eyebrow">
+          SAFAL SILWAL <span>·</span> PORTFOLIO 2026
+        </p>
+
+        <div
+          className="portfolio-intro__word-wrap"
+          key={`${greeting.lang}-${greetingIndex}`}
+        >
+          <h1
+            className="portfolio-intro__welcome"
+            lang={greeting.lang}
+            dir={greeting.direction ?? "auto"}
           >
-            <div className="vault-shadow" />
+            {greeting.text}
+          </h1>
 
-            <div className="vault-body">
-              <div className="vault-inner">
-                <div className="vault-velvet">
-                  <span className="vault-sparkle">✦</span>
-                  <span className="vault-sparkle">✧</span>
-                  <span className="vault-sparkle">✦</span>
-                </div>
-              </div>
-
-              <div className="vault-door">
-                <div className="vault-door-inset" />
-
-                <div className="vault-badge">SS</div>
-
-                <div className="vault-dial">
-                  <div className="dial-ring">
-                    <span>0</span>
-                    <span>3</span>
-                    <span>6</span>
-                    <span>9</span>
-                    <i />
-                  </div>
-                </div>
-
-                <div className="vault-handle">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-
-                <i className="vault-bolt bolt-one" />
-                <i className="vault-bolt bolt-two" />
-                <i className="vault-bolt bolt-three" />
-                <i className="vault-bolt bolt-four" />
-
-                <div className="vault-reflection" />
-              </div>
-            </div>
-          </div>
-
-          <div className="vault-console">
-            <p className="vault-console-label">
-              SECURE PORTFOLIO ACCESS
-            </p>
-
-            <h1 className="vault-question">
-              Solve to unlock.
-            </h1>
-
-            <p className="vault-hint">
-              Calculate the answer to the question below.
-            </p>
-
-            <div
-              className="math-challenge"
-              aria-live="polite"
-            >
-              {challenge.question} = ?
-            </div>
-
-            <div
-              className={`vault-display ${
-                error ? 'display-error' : ''
-              }`}
-              aria-live="polite"
-            >
-              <span className="display-led" />
-              {answer || 'ENTER ANSWER'}
-            </div>
-
-            <div className="vault-keypad">
-              {[
-                '1', '2', '3',
-                '4', '5', '6',
-                '7', '8', '9',
-                'CLEAR', '0', 'ENTER',
-              ].map((key) => (
-                <button
-                  key={key}
-                  type="button"
-                  className={`vault-key ${
-                    key === 'ENTER' ? 'key-enter' : ''
-                  } ${
-                    key === 'CLEAR' ? 'key-clear' : ''
-                  }`}
-                  onClick={() => {
-                    if (key === 'CLEAR') {
-                      clearAnswer();
-                    } else if (key === 'ENTER') {
-                      submitAnswer();
-                    } else {
-                      enterDigit(key);
-                    }
-                  }}
-                  disabled={opened}
-                >
-                  {key}
-                </button>
-              ))}
-            </div>
-
-            <p
-              className="vault-feedback"
-              aria-live="polite"
-            >
-              {feedback}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {phase === 'glitch' && (
-        <div className="glitch-scene">
-          <p className="glitch-overline">
-            ACCESS GRANTED · WELCOME
-          </p>
-
-          <div className="glitch-word-wrap">
-            <h1 className="glitch-word glitch-main">
-              SAFAL SILWAL
-            </h1>
-
-            <span
-              className="glitch-word glitch-cyan"
-              aria-hidden="true"
-            >
-              SAFAL SILWAL
-            </span>
-
-            <span
-              className="glitch-word glitch-magenta"
-              aria-hidden="true"
-            >
-              SAFAL SILWAL
-            </span>
-          </div>
-
-          <p className="glitch-subtitle">
-            LEARNING. BUILDING. IMPROVING.
-          </p>
-
-          <button
-            className="vault-key key-enter"
-            type="button"
-            onClick={finishIntro}
+          <span
+            className="portfolio-intro__welcome-layer portfolio-intro__welcome-layer--cyan"
+            aria-hidden="true"
           >
-            ENTER PORTFOLIO ↗
-          </button>
+            {greeting.text}
+          </span>
+
+          <span
+            className="portfolio-intro__welcome-layer portfolio-intro__welcome-layer--magenta"
+            aria-hidden="true"
+          >
+            {greeting.text}
+          </span>
         </div>
-      )}
+
+        <p className="portfolio-intro__subtitle">
+          CREATIVITY · CURIOSITY · CONTINUOUS GROWTH
+        </p>
+
+        <div
+          className="portfolio-intro__progress"
+          aria-hidden="true"
+        >
+          <span />
+        </div>
+      </div>
 
       <button
-        className="intro-mute"
+        className="portfolio-intro__skip"
         type="button"
-        onClick={() => setMuted((value) => !value)}
-        aria-label={
-          muted ? 'Enable intro sound' : 'Mute intro sound'
-        }
+        onClick={() => setLeaving(true)}
       >
-        {muted ? 'SOUND: OFF' : 'SOUND: ON'}
-      </button>
-
-      <button
-        className="intro-skip"
-        type="button"
-        onClick={finishIntro}
-      >
-        SKIP INTRO ↗
+        Skip intro <span aria-hidden="true">↗</span>
       </button>
     </div>
   );

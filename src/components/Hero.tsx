@@ -44,10 +44,7 @@ function Hero({ profile }: HeroProps) {
               Explore My Work <span aria-hidden="true">↗</span>
             </Button>
 
-            <a
-              className="button button-outline"
-              href="#contact"
-            >
+            <a className="button button-outline" href="#contact">
               Let's Talk
             </a>
           </div>
@@ -60,9 +57,11 @@ function Hero({ profile }: HeroProps) {
 
         <div className="hero-visual">
           <div className="hero-image-frame">
-            <div className="hero-image-placeholder" aria-hidden="true">
-              <span>{profile.firstName.charAt(0)}</span>
-            </div>
+            <img
+              className="hero-profile-image"
+              src="/images/profile.jpg"
+              alt={`${profile.name} — profile portrait`}
+            />
 
             <div className="hero-image-caption glass">
               <span className="hero-caption-icon" aria-hidden="true">

@@ -1,0 +1,25 @@
+
+.particle-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.8;
+  overflow: hidden;
+}
+
+/* Keep the particle effect behind the page content. */
+#root {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Preserve the existing positioning of the header and footer. */
+#root > .site-header,
+#root > main,
+#root > .site-footer {
+  z-index: 1;
+}
