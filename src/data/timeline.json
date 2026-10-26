@@ -1,0 +1,31 @@
+
+[
+  {
+    "id": "web-development",
+    "period": "Ongoing",
+    "title": "Web Development",
+    "organization": "Independent Learning",
+    "description": "Learning to build interactive web applications using React, TypeScript, JavaScript, HTML, and CSS."
+  },
+  {
+    "id": "ai-exploration",
+    "period": "Ongoing",
+    "title": "AI Tools & Prompt Engineering",
+    "organization": "Independent Learning",
+    "description": "Exploring AI tools and prompt engineering to understand how they can support creative work and practical projects."
+  },
+  {
+    "id": "creative-tools",
+    "period": "Ongoing",
+    "title": "Creative Software",
+    "organization": "Practical Exploration",
+    "description": "Developing familiarity with Photoshop, Figma, and DaVinci Resolve through creative experimentation."
+  },
+  {
+    "id": "personal-projects",
+    "period": "Ongoing",
+    "title": "Building Personal Projects",
+    "organization": "Independent Projects",
+    "description": "Applying new knowledge by building digital tools and developing creative YouTube projects."
+  }
+]

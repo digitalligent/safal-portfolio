@@ -1,0 +1,42 @@
+
+[
+  {
+    "id": "forex-tools",
+    "number": "01",
+    "title": "All-in-One Forex Tools",
+    "category": "Web",
+    "categoryLabel": "FINANCE · WEB APPLICATION",
+    "description": "An interactive collection of Forex calculation tools designed to make trading mathematics easier to understand.",
+    "image": "",
+    "tools": ["React", "TypeScript", "Web Development"],
+    "link": "https://all-in-one-forex-tools.onrender.com/",
+    "linkText": "Explore project",
+    "featured": true
+  },
+  {
+    "id": "frenzy-crave",
+    "number": "02",
+    "title": "Frenzy Crave",
+    "category": "Creative",
+    "categoryLabel": "MUSIC · CREATIVE PROJECT",
+    "description": "A creative YouTube project exploring music, gaming, and digital content.",
+    "image": "",
+    "tools": ["YouTube", "Music", "Creative Content"],
+    "link": "https://www.youtube.com/@frenzycrave369",
+    "linkText": "Visit channel",
+    "featured": true
+  },
+  {
+    "id": "enigmatic-pedia",
+    "number": "03",
+    "title": "The Enigmatic Pedia",
+    "category": "Creative",
+    "categoryLabel": "MEDIA · CONTENT CREATION",
+    "description": "A YouTube project focused on curiosity, research, and mystery-themed content.",
+    "image": "",
+    "tools": ["YouTube", "Research", "Content Creation"],
+    "link": "https://www.youtube.com/@TheEnigmaticPedia",
+    "linkText": "Visit channel",
+    "featured": true
+  }
+]

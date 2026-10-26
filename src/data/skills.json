@@ -1,0 +1,63 @@
+
+[
+  {
+    "id": "react",
+    "name": "React",
+    "category": "Development"
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "category": "Development"
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "category": "Development"
+  },
+  {
+    "id": "html-css",
+    "name": "HTML & CSS",
+    "category": "Development"
+  },
+  {
+    "id": "web-development",
+    "name": "Web Development",
+    "category": "Development"
+  },
+  {
+    "id": "ai-tools",
+    "name": "AI Tools",
+    "category": "AI & Productivity"
+  },
+  {
+    "id": "prompt-engineering",
+    "name": "Prompt Engineering",
+    "category": "AI & Productivity"
+  },
+  {
+    "id": "photoshop",
+    "name": "Photoshop",
+    "category": "Creative"
+  },
+  {
+    "id": "figma",
+    "name": "Figma",
+    "category": "Creative"
+  },
+  {
+    "id": "davinci-resolve",
+    "name": "DaVinci Resolve",
+    "category": "Creative"
+  },
+  {
+    "id": "creative-projects",
+    "name": "Creative Projects",
+    "category": "Creative"
+  },
+  {
+    "id": "problem-solving",
+    "name": "Problem Solving",
+    "category": "General"
+  }
+]

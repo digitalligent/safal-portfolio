@@ -1,0 +1,40 @@
+
+{
+  "name": "Safal Silwal",
+  "firstName": "Safal",
+  "professionalTitle": "Independent Creator & Developer",
+  "greeting": "Hello, I'm",
+  "intro": "I explore technology, build digital experiences, and turn curiosity into practical projects.",
+  "location": "Portugal",
+  "email": "",
+  "phone": "",
+  "availability": "Open to suitable opportunities",
+  "cvPath": "/files/safal-cv.pdf",
+  "portraitPath": "",
+  "stats": [
+    {
+      "value": 3,
+      "suffix": "",
+      "label": "Featured projects"
+    },
+    {
+      "value": 2,
+      "suffix": "",
+      "label": "YouTube channels"
+    },
+    {
+      "value": 1,
+      "suffix": "",
+      "label": "Web application"
+    }
+  ],
+  "socialLinks": {
+    "instagram": "",
+    "linkedin": "https://www.linkedin.com/in/safal-silwal-a01aa2341/",
+    "dribbble": "",
+    "behance": "",
+    "github": "",
+    "x": "",
+    "pinterest": "https://www.pinterest.com/silwalsafal369/"
+  }
+}

@@ -1,0 +1,39 @@
+
+[
+  {
+    "id": "digital-strategy",
+    "title": "Digital Strategy",
+    "description": "Plan practical digital strategies that help businesses reach the right audience and work toward clear goals.",
+    "icon": "target"
+  },
+  {
+    "id": "brand-identity",
+    "title": "Brand Identity",
+    "description": "Develop a consistent brand voice, messaging, and visual direction that help a business stand out.",
+    "icon": "palette"
+  },
+  {
+    "id": "web-development",
+    "title": "Web Development",
+    "description": "Build responsive, user-friendly websites designed to work smoothly across desktop, tablet, and mobile.",
+    "icon": "code"
+  },
+  {
+    "id": "content-writing",
+    "title": "Content Writing",
+    "description": "Create clear, useful content that communicates ideas and answers the audience's questions.",
+    "icon": "file-text"
+  },
+  {
+    "id": "copywriting",
+    "title": "Copywriting",
+    "description": "Write persuasive, audience-focused copy for websites, landing pages, and business campaigns.",
+    "icon": "pen-tool"
+  },
+  {
+    "id": "marketing-analytics",
+    "title": "Marketing Analytics",
+    "description": "Use performance data and meaningful metrics to evaluate results and identify opportunities to improve.",
+    "icon": "chart-no-axes-combined"
+  }
+]
